@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Computadores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <section class="text-center my-5">
+        <h1 id="titulo_pagina" class="display-4">Tienda de Computadores</h1>
+    </section>
+
+    <section id="descripcion_tienda" class="container my-5">
+        <p class="lead">Bienvenido a nuestra tienda de computadores. Ofrecemos una amplia variedad de equipos de alta calidad para satisfacer todas tus necesidades tecnológicas.</p>
+    </section>
+
+    <section id="computadores" class="container my-5">
+        <h2 class="mb-4">Listado de Productos</h2>
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody id="tabla_computadores">
+            </tbody>
+        </table>
+    </section>
+
+    <section id="contacto" class="container my-5">
+        <h2 class="mb-4">Información de Contacto</h2>
+        <p>Para más información, puedes contactarnos a través de los siguientes medios:</p>
+        <ul id="datos"></ul>
+            <li>Email: contacto@tiendacomputadores.com</li>
+            <li>Teléfono: +123 456 7890</li>
+            <li>Dirección: Calle Falsa 123, Ciudad Ejemplo</li>
+        </ul>
+    </section>
+    
+    <script>
+        fetch('data/taller.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const tituloPagina = document.getElementById('titulo_pagina');
+                tituloPagina.innerHTML = data.titulo_pagina;
+
+                const datos = document.getElementById('datos');
+                datos.innerHTML = `<p id="nombre_pagina">Nombre: ${data.datos_tienda.nombre}</p>
+                            <p id="correo_pagina">Correo: ${data.datos_tienda.correo}</p>
+                            <p id="telefono_pagina">Telefono: ${data.datos_tienda.telefono}</p>
+                            <p id="direccion_pagina">Dirección: ${data.datos_tienda.direccion}</p>`;
+
+                const computadores = data.computadores;
+                console.log(computadores);
+
+                let computadoresHTML = '';
+                for(let i = 0; i < computadores.length; i++) {
+                    console.log(computadores[i].nombre);
+                    computadoresHTML += `<tr>
+                        <td>${computadores[i].nombre}</td>
+                        <td>${computadores[i].descripcion}</td>
+                        <td>${computadores[i].precio}</td>
+                    </tr>`;
+                }
+
+                const tablacomputadores = document.getElementById('tabla_computadores');
+                tablacomputadores.innerHTML = computadoresHTML;
+            });
+    </script>
+</body>
+</html>
